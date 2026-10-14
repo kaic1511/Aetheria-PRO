@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>AETHERIA PRO — HDR 3D Shader & Spatial Web Experience</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="./style.css" />
+
+  <!-- Three.js + Post-Processing ES Module Import Map -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+
+  <!-- Interactive 3D WebGL Canvas -->
+  <canvas id="webgl-canvas"></canvas>
+  <div class="vignette"></div>
+  <div class="cursor-ring" id="cursor-ring"></div>
+
+  <!-- UI Overlay -->
+  <div class="ui-layer">
+    <!-- Top Navigation Bar -->
+    <header class="top-bar">
+      <div class="brand">
+        <div class="brand-orb"></div>
+        <div class="brand-title">AETHERIA <span class="pro-tag">PRO</span></div>
+        <div class="brand-sub">HDR BLOOM // GLSL // MULTI-TOUCH ENGINE</div>
+      </div>
+
+      <div class="top-actions">
+        <button class="pill-btn" id="tilt-btn" title="Enable Mobile Gyroscope Tilt">
+          <span class="status-dot"></span> Tilt
+        </button>
+        <button class="pill-btn" id="warp-btn" title="Toggle Hyperdrive Warp">
+          <span class="status-dot"></span> Warp
+        </button>
+        <button class="pill-btn" id="wireframe-btn" title="Toggle Holographic Cage">
+          <span class="status-dot"></span> Cage
+        </button>
+        <button class="pill-btn" id="audio-btn" title="Toggle Beat-Synced Synth">
+          <span class="status-dot"></span> Synth
+        </button>
+        <button class="pill-btn" id="snap-btn" title="Save Clean 3D Snapshot">
+          📸 Snap
+        </button>
+        <button class="pill-btn" id="cinema-btn" title="Hide UI for Pure 3D View">
+          <span class="status-dot"></span> Cinema
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Editorial + Slide-Up Mobile / Floating Desktop Studio -->
+    <main class="middle-grid hide-on-cinema">
+      <section class="hero-block">
+        <div class="chapter-badge" id="chapter-badge">CHAPTER 01 // SINGULARITY CORE</div>
+        <h1 class="hero-title" id="hero-title">HYPER-DIMENSIONAL SHADER ENGINE.</h1>
+        <p class="hero-desc" id="hero-desc">
+          Drag with 1 finger to orbit, pinch with 2 fingers to zoom, or double-tap to fire a gravitational shockwave. Real-time HDR Unreal Bloom meets 3D Simplex displacement.
+        </p>
+        <div class="hero-cta-row">
+          <button class="primary-btn" id="pulse-btn">⚡ Shockwave</button>
+          <button class="pill-btn" id="randomize-btn">🎲 Randomize DNA</button>
+          <button class="pill-btn mobile-studio-toggle" id="open-studio-btn">
+            ▲ Studio (<span id="mobile-theme-indicator">Nebula</span>)
+          </button>
+        </div>
+      </section>
+
+      <!-- Live GPU Shader Studio (Right Card on Desktop / Slide-Up Drawer on Mobile) -->
+      <aside class="studio-panel" id="studio-panel" aria-label="3D Shader Studio">
+        <div class="drawer-handle" id="drawer-handle"></div>
+        <div class="panel-header">
+          <span class="panel-title">GPU Shader &amp; Bloom Studio</span>
+          <span class="panel-tag">HDR PIPELINE</span>
+          <button class="panel-close-btn" id="close-studio-btn">DONE ✕</button>
+        </div>
+
+        <!-- 5 3D Topologies -->
+        <div class="control-section">
+          <div class="control-label">
+            <span>3D Topology</span>
+            <span class="control-value" id="geo-label">Harmonic Sphere</span>
+          </div>
+          <div class="chip-grid" id="geo-grid">
+            <button class="chip-btn active" data-geo="sphere">● Harmonic Sphere</button>
+            <button class="chip-btn" data-geo="torusknot">∞ Quantum Knot</button>
+            <button class="chip-btn" data-geo="starburst">✵ Cyber Starknot</button>
+            <button class="chip-btn" data-geo="torus">◎ Hyper-Torus</button>
+            <button class="chip-btn" data-geo="icosa">◆ Crystal Geode</button>
+            <button class="chip-btn" data-geo="octa">❖ Astral Octa</button>
+          </div>
+        </div>
+
+        <!-- 6 Chromatic Themes -->
+        <div class="control-section">
+          <div class="control-label">
+            <span>Chromatic Palette</span>
+            <span class="control-value" id="theme-label">Cyberpunk Nebula</span>
+          </div>
+          <div class="chip-grid" id="theme-grid">
+            <button class="chip-btn active" data-theme="0">
+              <span class="swatch-dot" style="background: linear-gradient(135deg,#00f0ff,#7c5cff)"></span> Nebula
+            </button>
+            <button class="chip-btn" data-theme="1">
+              <span class="swatch-dot" style="background: linear-gradient(135deg,#ffaa00,#ff1e56)"></span> Solaris
+            </button>
+            <button class="chip-btn" data-theme="2">
+              <span class="swatch-dot" style="background: linear-gradient(135deg,#00ff9d,#00b8ff)"></span> Biolume
+            </button>
+            <button class="chip-btn" data-theme="3">
+              <span class="swatch-dot" style="background: linear-gradient(135deg,#ffffff,#6b7cff)"></span> Chrome
+            </button>
+            <button class="chip-btn" data-theme="4">
+              <span class="swatch-dot" style="background: linear-gradient(135deg,#ff2a54,#ff9a00)"></span> Eclipse
+            </button>
+            <button class="chip-btn" data-theme="5">
+              <span class="swatch-dot" style="background: linear-gradient(135deg,#38ef7d,#a8ff78)"></span> Aurora
+            </button>
+          </div>
+        </div>
+
+        <!-- Sliders -->
+        <div class="control-section">
+          <div class="control-label">
+            <span>Morph Displacement</span>
+            <span class="control-value" id="val-morph">0.42</span>
+          </div>
+          <input type="range" id="slider-morph" min="0" max="1.2" step="0.01" value="0.42" />
+        </div>
+
+        <div class="control-section">
+          <div class="control-label">
+            <span>Harmonic Frequency</span>
+            <span class="control-value" id="val-freq">1.75</span>
+          </div>
+          <input type="range" id="slider-freq" min="0.4" max="3.8" step="0.05" value="1.75" />
+        </div>
+
+        <div class="control-section">
+          <div class="control-label">
+            <span>HDR Unreal Bloom</span>
+            <span class="control-value" id="val-bloom">0.85</span>
+          </div>
+          <input type="range" id="slider-bloom" min="0.0" max="2.0" step="0.05" value="0.85" />
+        </div>
+
+        <div class="control-section">
+          <div class="control-label">
+            <span>Fresnel Iridescence</span>
+            <span class="control-value" id="val-glow">1.45</span>
+          </div>
+          <input type="range" id="slider-glow" min="0.3" max="2.6" step="0.05" value="1.45" />
+        </div>
+
+        <div class="control-section" style="margin-bottom: 0;">
+          <div class="control-label">
+            <span>Temporal Speed</span>
+            <span class="control-value" id="val-speed">0.90x</span>
+          </div>
+          <input type="range" id="slider-speed" min="0.05" max="2.5" step="0.05" value="0.90" />
+        </div>
+      </aside>
+    </main>
+
+    <!-- Bottom Chapter Navigation & Telemetry -->
+    <footer class="bottom-bar hide-on-cinema">
+      <nav class="chapter-nav" aria-label="Spatial Camera Chapters">
+        <button class="chapter-btn active" data-chapter="0">01. Core</button>
+        <button class="chapter-btn" data-chapter="1">02. Horizon</button>
+        <button class="chapter-btn" data-chapter="2">03. Accretion</button>
+        <button class="chapter-btn" data-chapter="3">04. Zenith</button>
+        <button class="chapter-btn" data-chapter="4">05. Macro</button>
+      </nav>
+
+      <div class="telemetry">
+        <span>FPS: <strong id="fps-counter">60</strong></span>
+        <span>PARTICLES: <strong id="particle-counter">6,000</strong></span>
+        <span>PIPELINE: <strong>HDR BLOOM + GLSL</strong></span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Custom Shaders + Application Logic -->
+  <script src="./shaders.js"></script>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
